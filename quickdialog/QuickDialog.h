@@ -12,6 +12,8 @@
 // permissions and limitations under the License.
 //
 
+/* stub out UIImagePickerController to prevent needing NSPhotoLibraryUsageDescription */
+#define NO_UIIMAGEPICKER
 
 #import "QuickDialogController.h"
 #import "QuickDialogController+Navigation.h"

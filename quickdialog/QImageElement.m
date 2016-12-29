@@ -19,7 +19,9 @@
 
 @interface QImageElement () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPopoverControllerDelegate>
 
+#ifndef NO_UIIMAGEPICKER
 @property(nonatomic, retain) UIImagePickerController *imagePickerController;
+#endif
 @property(nonatomic, strong) UIPopoverController *popoverController;
 
 @end
@@ -30,7 +32,9 @@
 
 @synthesize imageValue;
 @synthesize imageMaxLength;
+#ifndef NO_UIIMAGEPICKER
 @synthesize imagePickerController;
+#endif
 @synthesize popoverController;
 @synthesize source = _source;
 
@@ -86,6 +90,17 @@
 	}
 	[obj setValue:self.imageValue forKey:_key];
 }
+
+#ifdef NO_UIIMAGEPICKER
+
+- (void)presentImagePicker:(QuickDialogTableView *)tableView controller:(QuickDialogController *)controller path:(NSIndexPath *)path {
+	NSLog(@"compiled with NO_UIIMAGEPICKER");
+}
+
+- (void)reducedImageIfNeeded {
+}
+
+#else
 
 - (void)presentImagePicker:(QuickDialogTableView *)tableView controller:(QuickDialogController *)controller path:(NSIndexPath *)path {
     if ([UIImagePickerController isSourceTypeAvailable:_source]) {
@@ -156,6 +171,8 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissImagePickerController];
 }
+
+#endif
 
 #pragma mark -
 #pragma mark UIPopoverControllerDelegate
